@@ -1,4 +1,5 @@
-#HDX Snap Service
+HDX Snap Service
+================
 
 Installing
 ----------
