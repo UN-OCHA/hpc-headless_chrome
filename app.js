@@ -88,7 +88,7 @@ function getFile(url, targetName, selector, res) {
         console.log("Success");
       },
       function(err){
-        console.log("Errror: " + err);
+        console.log("Error: " + err);
         res.status(400).send(err);
       }
     )
