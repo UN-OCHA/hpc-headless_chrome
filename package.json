@@ -1,0 +1,23 @@
+{
+  "name": "hdx-snap-service",
+  "description": "hdx, snapshot, screenshot, rest, puppeteer",
+  "version": "1.0.0",
+  "repository": "",
+  "engines": {
+    "node": ">=8.9.3"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "develop": "nodemon app.js"
+  },
+  "dependencies": {
+    "body-parser": "~1.0.1",
+    "child_process": "^1.0.2",
+    "config": "^1.29.4",
+    "express": "^4.16.2",
+    "mongoose": "~3.6.13",
+    "puppeteer": "^1.0.0",
+    "uuid": "^3.2.1",
+    "workerpool": "^2.3.0"
+  }
+}
