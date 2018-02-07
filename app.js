@@ -31,13 +31,26 @@ app.use('', router);
 
 // Main
 
-function generateSnap(filename, url, selector) {
+function generateSnap(filename, url, selector, viewport) {
   const puppeteer = require('puppeteer');
 
   return (async () => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.goto(url);
+    if (viewport) {
+      viewport = decodeURIComponent(viewport);
+      viewport = JSON.parse(viewport);
+      // console.log(viewport);
+      const targetViewport = Object.assign({}, viewport);
+
+      // console.log(targetViewport);
+      await page.setViewport(targetViewport);
+    }
+    await page.goto(url, {waitUntil: 'networkidle0'});
+    // await Promise.race([
+    //   page.waitForNavigation({waitUntil: 'load'}),
+    //   page.waitForNavigation({waitUntil: 'networkidle0'})
+    // ]);
     if (selector) {
       const element = await page.$(selector);
       await element.screenshot({path: filename});
@@ -52,17 +65,18 @@ function generateSnap(filename, url, selector) {
 function getImage(req, res) {
   const fileName = req.query.fileName;
   const selector = req.query.selector;
+  const viewport = req.query.viewport;
   const url = req.query.url;
   console.log("New request:", req.query);
   if (!url) {
     res.status(400).send('URL param missing!');
     return;
   }
-
-  getFile(url, fileName, selector, res);
+  // console.log("URL: " + url);
+  getFile(url, fileName, selector, viewport, res);
 }
 
-function getFile(url, targetName, selector, res) {
+function getFile(url, targetName, selector, viewport, res) {
   let filename = uuidv4() + '.png';
   filename = filename || 'example.png';
   filename = 'tmp/' + filename;
@@ -71,7 +85,7 @@ function getFile(url, targetName, selector, res) {
 
   console.log('Filename:' + filename);
   pool
-    .exec(generateSnap, [filename, url, selector])
+    .exec(generateSnap, [filename, url, selector, viewport])
     .then(function(result){
       return new Promise(function (resolve, reject) {
         res.download(filename, targetFilename, function (err) {
@@ -89,7 +103,8 @@ function getFile(url, targetName, selector, res) {
       },
       function(err){
         console.log("Error: " + err);
-        res.status(400).send(err);
+        res.json({"error": ""+err});
+        // res.status(400).send(err);
       }
     )
     .then(function(){
