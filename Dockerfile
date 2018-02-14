@@ -32,4 +32,10 @@ COPY . .
 RUN npm install \
     npm install puppeteer
 
+# Add user so we don't need --no-sandbox.
+RUN addgroup --system pptruser && adduser --system --group pptruser \
+    && chown -R pptruser:pptruser /home/pptruser \
+    && chown -R pptruser:pptruser /srv/www
+## Run everything after as non-privileged user.
+USER pptruser
 CMD npm run start

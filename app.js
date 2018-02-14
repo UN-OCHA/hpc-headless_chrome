@@ -36,7 +36,7 @@ function generateSnap(filename, url, selector, viewport, timeout) {
   return (async () => {
     const browser = await puppeteer.launch({
       executablePath: '/usr/bin/google-chrome',
-      args: ['--no-sandbox', '--headless', '--disable-gpu']
+      args: ['--headless', '--disable-gpu']
     });
     const page = await browser.newPage();
     if (timeout){
