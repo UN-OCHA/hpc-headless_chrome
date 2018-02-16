@@ -29,6 +29,6 @@ Development
 To build the Docker image:
 `docker build --no-cache -t hdx-snap-service:latest .`
 To start it:
-`docker run -d --name hdx-snap-service --cap-add=SYS_ADMIN -p 8080:8080 hdx-snap-service:latest`
+`docker run -d --name hdx-snap-service --shm-size=1G --cap-add=SYS_ADMIN -p 8080:80 hdx-snap-service:latest`
 Start with path mapping:
-`docker run -d --name hdx-snap-service --cap-add=SYS_ADMIN -v <PATH_TO_YOUR_DEV_DIR>:/srv/www -p 8080:8080 hdx-snap-service:latest`
+`docker run -d --name hdx-snap-service --shm-size=1G --cap-add=SYS_ADMIN -v <PATH_TO_YOUR_DEV_DIR>:/srv/www -p 8080:80 hdx-snap-service:latest`
