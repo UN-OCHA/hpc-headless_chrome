@@ -38,32 +38,40 @@ function generateSnap(filename, url, selector, viewport, timeout) {
       executablePath: '/usr/bin/google-chrome',
       args: ['--headless', '--disable-gpu']
     });
-    const page = await browser.newPage();
-    if (timeout){
-      page.setDefaultNavigationTimeout(timeout);
-    }
-    if (viewport) {
-      viewport = decodeURIComponent(viewport);
-      viewport = JSON.parse(viewport);
-      // console.log(viewport);
-      const targetViewport = Object.assign({}, viewport);
+    try {
+      const page = await browser.newPage();
+      if (timeout){
+        page.setDefaultNavigationTimeout(timeout);
+      }
+      if (viewport) {
+        viewport = decodeURIComponent(viewport);
+        viewport = JSON.parse(viewport);
+        // console.log(viewport);
+        const targetViewport = Object.assign({}, viewport);
 
-      // console.log(targetViewport);
-      await page.setViewport(targetViewport);
+        // console.log(targetViewport);
+        await page.setViewport(targetViewport);
+      }
+      await page.goto(url, {waitUntil: 'networkidle0'});
+      // await Promise.race([
+      //   page.waitForNavigation({waitUntil: 'load'}),
+      //   page.waitForNavigation({waitUntil: 'networkidle0'})
+      // ]);
+      if (selector) {
+        const element = await page.$(selector);
+        await element.screenshot({path: filename});
+      } else {
+        await page.screenshot({path: filename, fullPage: true});
+      }
+      console.log("As always, kill Chrome :)");
+      await browser.close();
+    } catch (e) {
+      // console.log("Error in pptr: " + e);
+      console.log("As always, kill Chrome :)");
+      await browser.close();
+      //rethrow the error to send error message into error json
+      throw e;
     }
-    await page.goto(url, {waitUntil: 'networkidle0'});
-    // await Promise.race([
-    //   page.waitForNavigation({waitUntil: 'load'}),
-    //   page.waitForNavigation({waitUntil: 'networkidle0'})
-    // ]);
-    if (selector) {
-      const element = await page.$(selector);
-      await element.screenshot({path: filename});
-    } else {
-      await page.screenshot({path: filename, fullPage: true});
-    }
-
-    await browser.close();
   })();
 }
 
