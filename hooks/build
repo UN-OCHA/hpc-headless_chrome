@@ -1,5 +1,0 @@
-#!/bin/bash
-
-echo "Starting the build..."
-
-docker build --shm-size 1g -t $IMAGE_NAME .

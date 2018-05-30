@@ -1,4 +1,5 @@
 #!/usr/bin/with-contenv sh
 
-cd $NODE_APP_DIR
-exec s6-setuidgid pptruser /usr/local/bin/npm run start
+cd $WORKDIR
+
+exec s6-setuidgid appuser google-chrome -headless --disable-gpu --disable-extensions --disable-translate --hide-scrollbars --remote-debugging-port=9222 --remote-debugging-address=0.0.0.0 --no-sandbox
