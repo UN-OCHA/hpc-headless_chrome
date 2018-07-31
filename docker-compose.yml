@@ -1,7 +1,7 @@
 version: '2.1'
 
 services:
-  snap:
+  chromeheadless:
     image: unocha/snap-service:$IMAGE_TAG
     ports:
       - "$ADDR:9222:9222"
