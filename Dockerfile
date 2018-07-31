@@ -6,8 +6,8 @@ WORKDIR $WORKDIR
 
 COPY . .
 
-RUN mkdir -p /srv/www /root /var/run/s6 /etc/services.d/snap && \
-    cp docker/run_snap /etc/services.d/snap/run && \
+RUN mkdir -p /srv/www /root /var/run/s6 /etc/services.d/chromeheadless && \
+    cp docker/run_chromeheadless /etc/services.d/chromeheadless/run && \
     curl -s https://dl-ssl.google.com/linux/linux_signing_key.pub -o linux_signing_key.pub && \
     apt-key add linux_signing_key.pub && \
     echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list && \
