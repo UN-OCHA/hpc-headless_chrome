@@ -23,9 +23,15 @@ RUN mkdir -p /srv/www /root /var/run/s6 /etc/services.d/chromeheadless && \
         google-chrome-unstable && \
     # Install roboto fonts from deb repository
     apt-get -qy install fonts-roboto && \
-    # Replace selected roboto fonts with newer versions from google
-    ls -la /usr/share/fonts/truetype/roboto | grep .ttf | grep -v "Condensed" | awk '{print "wget -q https://github.com/google/fonts/blob/master/apache/roboto/"$9" -O /usr/share/fonts/truetype/roboto/"$9}' | sh && \
     rm -rf /var/lib/apt/lists/* && \
-    rm -rf /src/*.deb
+    rm -rf /src/*.deb && \
+
+    # The robotot fonts from the deb repo render very poorly, so we replace
+    # them with newer versions from google.
+    cd /usr/share/fonts/truetype/roboto && \
+      for variant in $(ls *.ttf | grep -v Condensed); do \
+        rm -f "./${variant}"; \
+        wget -q "https://github.com/google/fonts/blob/master/apache/roboto/${variant}"; \
+      done
 
 EXPOSE 9222
