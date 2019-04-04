@@ -11,7 +11,9 @@ RUN mkdir -p /srv/www /root /var/run/s6 /etc/services.d/chromeheadless && \
     curl -s https://dl-ssl.google.com/linux/linux_signing_key.pub -o linux_signing_key.pub && \
     apt-key add linux_signing_key.pub && \
     echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list && \
-    apt-get -qy update && \
+    echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list && \
+    sed -i '/deb http:\/\/deb.debian.org\/debian jessie-updates main/d' /etc/apt/sources.list && \
+    apt-get -qy -o Acquire::Check-Valid-Until=false update && \
     apt-get -qy install \
         psmisc \
         net-tools \
