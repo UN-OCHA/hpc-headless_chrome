@@ -1,4 +1,4 @@
-FROM unocha/debian-snap-base:10-buster-chrome81-node12-202001-01
+FROM unocha/debian-snap-base:10-buster-node12-202010-02
 
 ENV WORKDIR=/srv/www
 
