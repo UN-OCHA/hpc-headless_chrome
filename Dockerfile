@@ -1,4 +1,4 @@
-FROM unocha/debian-snap-base:10-buster-node12-202010-02
+FROM unocha/debian-snap-base:10-buster-node12
 
 ENV WORKDIR=/srv/www
 
