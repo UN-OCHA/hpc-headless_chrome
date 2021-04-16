@@ -15,15 +15,14 @@ WORKDIR $WORKDIR
 
 COPY . .
 
+# Check available versions here: https://www.ubuntuupdates.org/package/google_chrome/stable/main/base/google-chrome-stable
+ARG CHROME_VERSION="90.0.4430.72-1"
+
 RUN \
     # Configure Chrome repo and install the latest *stable* Chrome version.
-    curl -s https://dl-ssl.google.com/linux/linux_signing_key.pub -o linux_signing_key.pub && \
-    apt-key add linux_signing_key.pub && \
-    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list && \
-    # Install Chrome, so it can match
-    apt-get update && \
-    apt-get -qy install --no-install-recommends google-chrome-stable google-chrome-unstable- && \
-    apt-get -qy dist-upgrade && \
+    wget --no-verbose -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}_amd64.deb && \
+    apt-get install -y /tmp/chrome.deb && \
+    rm /tmp/chrome.deb && \
     # Ok, cleanup!
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
