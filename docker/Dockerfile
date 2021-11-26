@@ -1,4 +1,4 @@
-FROM unocha/debian-snap-base:12-debian
+FROM public.ecr.aws/unocha/debian-snap-base:12-debian
 
 ENV WORKDIR=/srv/www
 
@@ -19,6 +19,8 @@ COPY . .
 ARG CHROME_VERSION="90.0.4430.72-1"
 
 RUN \
+    apt-get update && \
+    apt-get install -y wget && \
     # Configure Chrome repo and install the latest *stable* Chrome version.
     wget --no-verbose -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}_amd64.deb && \
     apt-get install -y /tmp/chrome.deb && \
