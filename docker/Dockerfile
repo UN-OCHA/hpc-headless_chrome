@@ -1,4 +1,4 @@
-FROM public.ecr.aws/unocha/debian-snap-base:12-debian
+FROM public.ecr.aws/unocha/debian-snap-base:16-debian
 
 ENV WORKDIR=/srv/www
 
@@ -16,7 +16,7 @@ WORKDIR $WORKDIR
 COPY . .
 
 # Check available versions here: https://www.ubuntuupdates.org/package/google_chrome/stable/main/base/google-chrome-stable
-ARG CHROME_VERSION="90.0.4430.72-1"
+ARG CHROME_VERSION="101.0.4951.54-1"
 
 RUN \
     apt-get update && \
@@ -28,9 +28,11 @@ RUN \
     # Ok, cleanup!
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    rm -rf /tmp/* && \
+    rm -rf /tmp/*
+
+Run \
     mkdir -p /srv/www /root /var/run/s6 /etc/services.d/snap && \
-    cp docker/run_snap /etc/services.d/snap/run && \
+    cp /srv/www/run_snap /etc/services.d/snap/run && \
     rm -rf /etc/services.d/node
 
 EXPOSE 9222
