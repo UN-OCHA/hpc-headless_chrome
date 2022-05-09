@@ -7,7 +7,7 @@ LABEL org.label-schema.schema-version="1.0" \
       org.label-schema.vendor="HPC" \
       org.label-schema.version=$VERSION \
       org.label-schema.name="hpc-headless-chrome" \
-      org.label-schema.description="This service provides a headless-chrome for FTS" \
+      org.label-schema.description="This service provides a headless-chrome for Humanitarian Insight" \
       org.label-schema.vcs-url=$VCS_URL \
       org.label-schema.vcs-ref=$VCS_REF
 
