@@ -16,9 +16,12 @@ WORKDIR $WORKDIR
 COPY ./docker/run_snap /tmp/run
 
 # Check available versions here: https://www.ubuntuupdates.org/package/google_chrome/stable/main/base/google-chrome-stable
-# ARG CHROME_VERSION="101.0.4951.54-1"
+ARG CHROME_VERSION="101.0.4951.54-1"
 
 RUN \
+    # Fetch the specified Chrome version and install it.
+    wget --no-verbose -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}_amd64.deb && \
+    apt-get install -y /tmp/chrome.deb && \
     # Do not start a node process.
     rm -rf /etc/services.d/node && \
     # Remove the snap service. Bye!
